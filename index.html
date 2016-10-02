@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+<head>
+	
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Anita Garje">
+
+    <!--For Aj-->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+
+     
+    <script src="unique.js"></script> 
+  <!--<script src="pagination/unique.js"></script>-->
+
+	<title>Code Cafe</title>
+	
+	<!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+     <!-- Custom Fonts -->
+    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+    <!--Custom css-->
+    <link href="customcss/main.css" rel="stylesheet">
+  
+ 
+
+	<div class="page-header">
+  		<h3 id="heading"><img src="img/Cogni.png"><span id="aq">C</span><span id="gr">ode</span> <span id="aq">C</span><span id="gr">afe</span><small id="aq"> --Code Hub With Stats</small> 
+	</div>
+    <script>
+    var app = angular.module('myApp', []);
+    app.controller('myController', ['$scope','$http', function($scope,$http){
+
+        $scope.websites = [];
+        $http
+          .get('http://hackerearth.0x10.info/api/ctz_coders?type=json&query=list_submissions&page=1')
+          .then(function sucess(response) {
+            $scope.websites = response.data.websites;
+          },function failure(response) {
+            console.error("Error");
+          })
+      
+    }])
+  </script>
+</head>
+<body ng-controller="myController">
+<div > <!--wrapper start-->
+
+<div id="leftpanel" class="col-sm-9"><!--Left panel-->
+<div class="row"><!--1st search row-->
+<div class="col-sm-6"> <!--inside colm-->
+<div class="panel">
+    <div id="search"class="panel-body">
+            <div class="input-group"> <!-- /input-group -->
+                <input type="text" class="form-control" ng-model="search" placeholder="Search by(title,language)">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button">Go!</button>
+            </span>
+    </div><!-- /input-group -->
+    </div><!--panel-body-->
+</div>
+</div> <!--inside colm-->
+</div><!--1st search row-->
+
+
+<div id="repeat" ng-repeat="website in websites | filter:search | filter:searchtype1 | filter:searchtype2 |filter:searchtype3| filter:searchtype4 | filter:searchtype5" class="panel panel-default">
+    <div id="title" class="panel-heading">
+       {{website.title}}
+    </div><!--panel heading-->
+    <div id="codepanel" class="panel-body">
+    <div  id="result" class="row">
+        <div id="r1"class="col-sm-3">
+         {{website.compiler_status}} 
+        </div>
+        <div id="l1"class="col-sm-3">
+         {{website.language}}
+        </div>
+    </div><!--for result-->
+     <div id="code" class="row">
+     <pre id="code1">{{website.source_code}}</pre>
+    </div><!--for code-->
+        
+    </div><!--panel body-->
+  </div> <!--panel-->
+
+
+
+  
+
+</div><!--Left panel-->
+
+<div  id="rightpanel"class="col-sm-3"><!--Right panel-->
+ <!--   <div class="row">--> <!--2nd row-->
+<div>
+    <div class="panel"> <!--panel panel-default-->
+      <div id="stshead"class="panel-heading"><i class="fa fa-filter" aria-hidden="true"></i>  Filter By Status
+        </div><!--panel heading-->
+        <div id="status"class="panel-body"> <!--panel-body-->
+          <div class="checkbox">
+          <label><input type="checkbox"  ng-model="searchtype1" value="Accepted">Accepted</label>
+          </div>
+          <div class="checkbox">
+          <label><input type="checkbox" ng-model="searchtype2" value="Skipped">Skipped</label>
+          </div>
+          <div class="checkbox">
+          <label><input type="checkbox" ng-model="searchtype3" value="Memory">Memory/Time limit exceeded</label>
+          <div class="checkbox">
+          <label><input type="checkbox" ng-model="searchtype4" value="Time">Run/Time Compilation Error</label>
+          </div>
+          <div class="checkbox">
+          <label><input type="checkbox" ng-model="searchtype5" value="Wrong">Wrong Answer</label>
+          </div>
+
+        </div> <!--panel-body-->
+    </div> <!--panel panel-default-->
+</div> <!--1st row-->
+    
+ <!--2nd row -->
+ <div class="row"> <!--2nd row s -->
+<div id="ststipanel" class="panel"> <!--panel panel-default-->
+      <div id="ststihead" class="panel-heading">Statistical Analysis
+        </div><!--panel heading-->
+        <div id="ststicbody"class="panel-body"> <!--panel-body-->
+            <ul id="toplang" class="list-group"></ul>
+            <ul id="top2title" class="list-group"></ul>
+            <ul id="level" class="list-group"></ul>
+            <ul id="sub" class="list-group"></ul>
+
+        </div> <!--panel-body-->
+    </div> <!--panel panel-default-->
+
+
+ </div> <!--2nd row end-->
+
+
+  
+</div><!--Right panel-->
+
+ 
+</div><!--Wrapper end>
+
+
+
+  <!-- jQuery -->
+    <script src="jquery/jquery.min.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+   
+</body>
+</html>
